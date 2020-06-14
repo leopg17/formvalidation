@@ -101,6 +101,8 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
+          Text('Olvido su password?'),
+          SizedBox(height: 50.0)
         ],
       ),
     );
@@ -143,6 +145,9 @@ class LoginPage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0)
       ),
+      elevation: 0.0,
+      color: Colors.deepPurple,
+      textColor: Colors.white,
       onPressed: (){}
     );
   }
