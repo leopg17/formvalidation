@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: Colors.black,
+                  color: Colors.black54,
                   blurRadius: 3.0,
                   //El offset permite mover la sombra en el eje X y Y
                   offset: Offset(0.0, 5.0),
