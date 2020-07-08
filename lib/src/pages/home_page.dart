@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/providers/producto_provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final productosProvider = new ProductoProvider();
+
   @override
   Widget build(BuildContext context) {
-
     //final bloc = Provider.of(context);
 
-    
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
       ),
-      body:  _crearListado(),
+      body: _crearListado(),
       floatingActionButton: _crearBoton(context),
       // Column(
       //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,7 +30,6 @@ class HomePage extends StatelessWidget {
       //     Text('Password: ${bloc.password}'),
       //   ]
       // ),
-      
     );
   }
 
@@ -34,20 +37,22 @@ class HomePage extends StatelessWidget {
     return FloatingActionButton(
       child: Icon(Icons.add),
       backgroundColor: Colors.deepPurple,
-      onPressed: ()=>Navigator.pushNamed(context, 'producto'),
+      onPressed: () => Navigator.pushNamed(context, 'producto').then((value) {
+        setState(() {});
+      }),
     );
   }
 
   Widget _crearListado() {
     return FutureBuilder(
       future: productosProvider.cargarProductos(),
-      builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
-        if(snapshot.hasData){
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
+        if (snapshot.hasData) {
           final productos = snapshot.data;
           return ListView.builder(
-            itemCount: productos.length,
-            itemBuilder: (context, i)=> _crearItem(context, productos[i])
-          );
+              itemCount: productos.length,
+              itemBuilder: (context, i) => _crearItem(context, productos[i]));
         } else {
           return Center(child: CircularProgressIndicator());
         }
@@ -55,20 +60,24 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _crearItem(BuildContext context, ProductoModel producto){
+  Widget _crearItem(BuildContext context, ProductoModel producto) {
     return Dismissible(
       key: UniqueKey(),
       background: Container(
         color: Colors.red,
+        child: Center(child: Text('Borrar')),
       ),
-      onDismissed: (direccion){
-        //TODO: Borrar producto
+      onDismissed: (direccion) {
         productosProvider.borrarProducto(producto.id);
       },
       child: ListTile(
         title: Text('${producto.titulo} - ${producto.valor}'),
         subtitle: Text(producto.id),
-        onTap: ()=> Navigator.pushNamed(context, 'producto', arguments: producto),
+        onTap: () =>
+            Navigator.pushNamed(context, 'producto', arguments: producto)
+                .then((value) {
+          setState(() {});
+        }),
       ),
     );
   }
