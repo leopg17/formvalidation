@@ -148,7 +148,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _mostrarFoto() {
     if (producto.fotoUrl != null) {
-      return Container();
+      return FadeInImage(
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        image: NetworkImage(producto.fotoUrl),
+        height: 300.0,
+        fit: BoxFit.contain,
+      );
     } else {
       if (_foto != null) {
         return Image.file(
@@ -171,7 +176,9 @@ class _ProductoPageState extends State<ProductoPage> {
 
   _procesarImage(ImageSource origen) async {
     final pickedFile = await picker.getImage(source: origen);
-    if (_foto != null) {}
+    if (_foto != null) {
+      producto.fotoUrl = null;
+    }
     setState(() {
       _foto = File(pickedFile.path);
       print(_foto.path);
