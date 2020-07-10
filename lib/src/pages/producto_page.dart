@@ -116,13 +116,17 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
 
     setState(() {
       _guardando = true;
     });
+
+    if (_foto != null) {
+      producto.fotoUrl = await productoProvider.subirImagen(_foto);
+    }
 
     if (producto.id != null) {
       productoProvider.editarProducto(producto);
@@ -146,24 +150,31 @@ class _ProductoPageState extends State<ProductoPage> {
     if (producto.fotoUrl != null) {
       return Container();
     } else {
-      return Image(
-        //Pregunta si la fotografia tiene un valor toma el path,
-        //si no tiene nada muestra la imagen no image
-        image: AssetImage(_foto?.path ?? 'assets/no-image.png'),
-        height: 300.0,
-        fit: BoxFit.cover,
-      );
+      if (_foto != null) {
+        return Image.file(
+          _foto,
+          fit: BoxFit.cover,
+          height: 300.0,
+        );
+      }
+      return Image.asset('assets/no-image.png');
     }
   }
 
-  Future _seleccionarFoto() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  _seleccionarFoto() async {
+    _procesarImage(ImageSource.gallery);
+  }
+
+  _tomarFoto() async {
+    _procesarImage(ImageSource.camera);
+  }
+
+  _procesarImage(ImageSource origen) async {
+    final pickedFile = await picker.getImage(source: origen);
     if (_foto != null) {}
     setState(() {
       _foto = File(pickedFile.path);
       print(_foto.path);
     });
   }
-
-  _tomarFoto() {}
 }
