@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final productosProvider = new ProductoProvider();
+  final productosProvider = new ProductosProvider();
 
   @override
   Widget build(BuildContext context) {

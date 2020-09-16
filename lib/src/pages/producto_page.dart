@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/providers/producto_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:formvalidation/src/models/producto_model.dart';
-import 'package:formvalidation/src/providers/producto_provider.dart';
+
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 class ProductoPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
   ProductoModel producto = new ProductoModel();
   bool _guardando = false;
-  final productoProvider = new ProductoProvider();
+  final productoProvider = new ProductosProvider();
 
   final picker = ImagePicker();
   File _foto;
